@@ -1,0 +1,17 @@
+{
+  "name": "farol-hospitalar",
+  "private": true,
+  "description": "Dashboard de gestão hospitalar (API Node + frontend React)",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "db:up": "docker compose up -d db adminer",
+    "dev": "concurrently -n api,web -c blue,magenta \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "npm --prefix api run dev",
+    "dev:web": "npm --prefix web run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
+}
