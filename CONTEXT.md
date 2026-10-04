@@ -43,5 +43,5 @@ _Avoid_: Pacientes por profissional
 ### Farol
 
 **Farol**:
-Classificação de gravidade de uma internação, departamento ou do hospital: verde (tudo OK), amarelo (atenção), vermelho (crítico) ou neutro (internação encerrada).
+Classificação de gravidade de uma internação, departamento ou do hospital: verde (normal), amarelo (atenção), vermelho (crítico) ou neutro (internação encerrada).
 _Avoid_: Semáforo, alerta, status (sozinho)

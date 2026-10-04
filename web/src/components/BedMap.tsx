@@ -5,10 +5,11 @@ import styles from './BedMap.module.css';
 
 type Bed = DepartmentDetail['beds']['map'][number];
 
+// Rótulos das cores vêm de FAROL_LABEL para a legenda nunca divergir do resto do app.
 const LEGEND = [
-  { key: 'red', label: 'Crítico' },
-  { key: 'yellow', label: 'Atenção' },
-  { key: 'green', label: 'Tudo OK' },
+  { key: 'red', label: FAROL_LABEL.red },
+  { key: 'yellow', label: FAROL_LABEL.yellow },
+  { key: 'green', label: FAROL_LABEL.green },
   { key: 'free', label: 'Livre' },
 ] as const;
 

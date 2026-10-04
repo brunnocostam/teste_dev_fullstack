@@ -4,7 +4,7 @@ import type { AdmissionSituation, FarolColor } from '../api/types';
 export const FAROL_LABEL: Record<FarolColor, string> = {
   red: 'Crítico',
   yellow: 'Atenção',
-  green: 'Tudo OK',
+  green: 'Normal',
   neutral: 'Encerrada',
 };
 
