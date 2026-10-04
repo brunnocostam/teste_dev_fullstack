@@ -16,7 +16,7 @@ function today(): string {
 }
 
 /**
- * Período De/Até como rascunho: o calendário nativo dispara mudança a cada ajuste
+ * Período de entrada (De/Até) como rascunho: o calendário nativo dispara mudança a cada ajuste
  * (trocar o mês, o dia...), então só aplicamos ao sair do campo, no Enter ou no botão.
  */
 export function PeriodFilter({ from, to, onApply }: PeriodFilterProps) {
@@ -46,12 +46,12 @@ export function PeriodFilter({ from, to, onApply }: PeriodFilterProps) {
 
   return (
     <fieldset className={styles.period}>
-      <legend className="sr-only">Período</legend>
+      <legend className="sr-only">Data de entrada</legend>
 
       <div className={styles.field}>
         <span className={styles.labelRow}>
           <label htmlFor="period-from" className={styles.label}>
-            De
+            Entrada de
           </label>
           <button
             type="button"
@@ -77,7 +77,7 @@ export function PeriodFilter({ from, to, onApply }: PeriodFilterProps) {
       <div className={styles.field}>
         <span className={styles.labelRow}>
           <label htmlFor="period-to" className={styles.label}>
-            Até
+            Entrada até
           </label>
           <button
             type="button"

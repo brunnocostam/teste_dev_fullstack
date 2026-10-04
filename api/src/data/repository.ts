@@ -11,7 +11,7 @@ export interface DepartmentCapacityRow {
 
 export type AdmissionSituation = 'internado' | 'alta' | 'obito';
 
-/** Filtros da listagem de internações (todos opcionais). Datas no formato AAAA-MM-DD. */
+/** Filtros da listagem de internações (todos opcionais). from/to filtram a data de entrada (AAAA-MM-DD). */
 export interface AdmissionFilters {
   departmentId?: number;
   search?: string;
@@ -153,8 +153,8 @@ function filterConditions(filters: AdmissionFilters, params: unknown[]): string[
 
   if (filters.departmentId !== undefined) conditions.push(`a.department_id = ${param(filters.departmentId)}`);
   if (filters.search) conditions.push(`p.name ILIKE ${param(`%${escapeLike(filters.search)}%`)}`);
-  // Período por sobreposição: a internação esteve ativa em algum momento entre from e to.
-  if (filters.from) conditions.push(`coalesce(a.discharge_date, 'infinity'::timestamp) >= ${param(filters.from)}::date`);
+  // Período pela data de entrada, com o dia final inteiro incluído (ver docs/adr/0003).
+  if (filters.from) conditions.push(`a.admission_date >= ${param(filters.from)}::date`);
   if (filters.to) conditions.push(`a.admission_date < ${param(filters.to)}::date + 1`);
 
   return conditions;
