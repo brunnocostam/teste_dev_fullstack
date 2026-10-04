@@ -1,4 +1,4 @@
-import type { FarolColor } from '../api/types';
+import type { AdmissionSituation, FarolColor } from '../api/types';
 
 /** Rótulo textual de cada cor: a cor nunca aparece sozinha (acessibilidade). */
 export const FAROL_LABEL: Record<FarolColor, string> = {
@@ -6,4 +6,10 @@ export const FAROL_LABEL: Record<FarolColor, string> = {
   yellow: 'Atenção',
   green: 'Tudo OK',
   neutral: 'Encerrada',
+};
+
+export const SITUATION_LABEL: Record<AdmissionSituation, string> = {
+  internado: 'Internado',
+  alta: 'Alta',
+  obito: 'Óbito',
 };

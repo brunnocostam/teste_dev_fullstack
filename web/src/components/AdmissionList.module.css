@@ -1,0 +1,118 @@
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.table th {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.row {
+  cursor: pointer;
+}
+
+.row:hover td {
+  background: var(--color-surface-muted);
+}
+
+.num {
+  text-align: right !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.name {
+  display: block;
+  color: var(--color-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.name:hover {
+  text-decoration: underline;
+}
+
+.reason {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+}
+
+.cards {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-4);
+  padding-right: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  color: inherit;
+  text-decoration: none;
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+}
+
+.situation,
+.meta {
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+}
+
+.chevron {
+  position: absolute;
+  top: 50%;
+  right: var(--space-3);
+  width: 18px;
+  height: 18px;
+  color: var(--color-text-muted);
+  transform: translateY(-50%);
+}
+
+@media (max-width: 767px) {
+  .tableWrap {
+    display: none;
+  }
+
+  .cards {
+    display: flex;
+  }
+}
