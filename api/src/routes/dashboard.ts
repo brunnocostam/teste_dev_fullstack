@@ -29,7 +29,7 @@ export function dashboardRouter(repo: HospitalRepository): Router {
     const { id } = departmentParams.parse(req.params);
     const [capacity, admissions, exams] = await Promise.all([
       repo.departmentCapacity(id),
-      repo.activeAdmissions(id),
+      repo.activeAdmissions({ departmentId: id }),
       repo.examFunnel(EXAM_THRESHOLDS.redAboveHours, id),
     ]);
     if (capacity.length === 0) throw notFound(`Departamento ${id} não encontrado`);

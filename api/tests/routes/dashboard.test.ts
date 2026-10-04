@@ -54,7 +54,7 @@ describe('GET /api/departments/:id', () => {
     expect(res.status).toBe(200);
     expect(res.body.id).toBe(3);
     expect(repo.departmentCapacity).toHaveBeenCalledWith(3);
-    expect(repo.activeAdmissions).toHaveBeenCalledWith(3);
+    expect(repo.activeAdmissions).toHaveBeenCalledWith({ departmentId: 3 });
     expect(repo.examFunnel).toHaveBeenCalledWith(24, 3);
   });
 
