@@ -158,10 +158,10 @@ function buildTimeline(header: AdmissionHeaderRow, vitals: VitalSignsRow[], exam
   ];
 
   for (const exam of exams) {
-    events.push({ at: exam.requestedAt, type: 'exam', label: `${exam.name} solicitado`, severity: null });
+    events.push({ at: exam.requestedAt, type: 'exam', label: `Exame solicitado: ${exam.name}`, severity: null });
     if (exam.resultAt) {
-      const result = exam.result ? `: ${exam.result}` : ' concluído';
-      events.push({ at: exam.resultAt, type: 'exam', label: `${exam.name}${result}`, severity: null });
+      const result = exam.result ? `: ${exam.result}` : '';
+      events.push({ at: exam.resultAt, type: 'exam', label: `Resultado de ${exam.name}${result}`, severity: null });
     }
   }
 

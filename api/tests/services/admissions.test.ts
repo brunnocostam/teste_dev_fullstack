@@ -116,10 +116,10 @@ describe('toAdmissionDetail', () => {
   it('monta a timeline em ordem cronológica com alertas de sinais vitais', () => {
     expect(detail.timeline.map((e) => [e.type, e.label])).toEqual([
       ['admission', 'Entrada em UTI'],
-      ['exam', 'Hemograma completo solicitado'], // 01/09 12h (exame 1)
-      ['exam', 'Hemograma completo solicitado'], // 01/09 12h (exame 3)
-      ['exam', 'Hemograma completo: Normal'], // 01/09 18h (resultado do exame 1)
-      ['exam', 'Hemograma completo solicitado'], // 02/09 00h (exame 2)
+      ['exam', 'Exame solicitado: Hemograma completo'], // 01/09 12h (exame 1)
+      ['exam', 'Exame solicitado: Hemograma completo'], // 01/09 12h (exame 3)
+      ['exam', 'Resultado de Hemograma completo: Normal'], // 01/09 18h (resultado do exame 1)
+      ['exam', 'Exame solicitado: Hemograma completo'], // 02/09 00h (exame 2)
       ['alert', 'Saturação 89%'],
       ['alert', 'FC 105 bpm'],
     ]);
