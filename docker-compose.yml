@@ -46,5 +46,15 @@ services:
       timeout: 5s
       retries: 5
 
+  web:
+    build: ./web
+    container_name: hospital_web
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+
 volumes:
   pgdata:

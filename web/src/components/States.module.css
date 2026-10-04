@@ -1,0 +1,65 @@
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-6) var(--space-4);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  text-align: center;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  color: var(--color-text-muted);
+}
+
+.title {
+  font-weight: 600;
+}
+
+.text {
+  max-width: 48ch;
+  color: var(--color-text-muted);
+}
+
+.error {
+  border-style: solid;
+  border-color: var(--status-red-border);
+  background: var(--status-red-bg);
+}
+
+.error .icon,
+.error .title {
+  color: var(--status-red-text);
+}
+
+.retry {
+  min-height: var(--touch-target);
+  margin-top: var(--space-2);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--status-red-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.skeleton {
+  display: block;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(90deg, var(--color-surface-muted) 0%, var(--color-border) 50%, var(--color-surface-muted) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}

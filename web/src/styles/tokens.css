@@ -1,0 +1,92 @@
+/* Design tokens. Use sempre os tokens, nunca cores soltas nos componentes. */
+:root {
+  color-scheme: light;
+
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  --color-bg: #f5f7fa;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f2f4f7;
+  --color-border: #e4e7ec;
+  --color-text: #101828;
+  --color-text-muted: #475467;
+  --color-accent: #1849a9;
+  --color-accent-bg: #eff4ff;
+  --color-focus: #2e90fa;
+
+  /* Farol: cor sólida (bolinha/barra), fundo suave, borda e texto com contraste AA sobre o fundo. */
+  --status-green: #17b26a;
+  --status-green-bg: #ecfdf3;
+  --status-green-border: #abefc6;
+  --status-green-text: #067647;
+
+  --status-yellow: #f5b400;
+  --status-yellow-bg: #fffaeb;
+  --status-yellow-border: #fedf89;
+  --status-yellow-text: #93370d;
+
+  --status-red: #d92d20;
+  --status-red-bg: #fef3f2;
+  --status-red-border: #fecdca;
+  --status-red-text: #b42318;
+
+  --status-neutral: #98a2b3;
+  --status-neutral-bg: #f2f4f7;
+  --status-neutral-border: #e4e7ec;
+  --status-neutral-text: #475467;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  --shadow-card: 0 1px 2px rgb(16 24 40 / 6%), 0 1px 3px rgb(16 24 40 / 10%);
+
+  --sidebar-width: 232px;
+  --bottom-nav-height: 64px;
+  --touch-target: 44px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --color-bg: #0c111d;
+    --color-surface: #161b26;
+    --color-surface-muted: #1f242f;
+    --color-border: #333741;
+    --color-text: #f5f5f6;
+    --color-text-muted: #94969c;
+    --color-accent: #84adff;
+    --color-accent-bg: #102a56;
+
+    --status-green: #47cd89;
+    --status-green-bg: #053321;
+    --status-green-border: #085d3a;
+    --status-green-text: #75e0a7;
+
+    --status-yellow: #fdb022;
+    --status-yellow-bg: #4e1d09;
+    --status-yellow-border: #93370d;
+    --status-yellow-text: #fec84b;
+
+    --status-red: #f97066;
+    --status-red-bg: #55160c;
+    --status-red-border: #912018;
+    --status-red-text: #fda29b;
+
+    --status-neutral: #85888e;
+    --status-neutral-bg: #1f242f;
+    --status-neutral-border: #333741;
+    --status-neutral-text: #cecfd2;
+
+    --shadow-card: 0 1px 2px rgb(0 0 0 / 40%);
+  }
+}

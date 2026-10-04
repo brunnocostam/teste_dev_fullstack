@@ -1,0 +1,64 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  border: 1px solid var(--badge-border);
+  border-radius: var(--radius-pill);
+  background: var(--badge-bg);
+  color: var(--badge-text);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.sm {
+  padding: 2px var(--space-2);
+  font-size: 0.8125rem;
+}
+
+.md {
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.9375rem;
+}
+
+.dot,
+.dotOnly {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--badge-solid);
+}
+
+.dotOnly {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+}
+
+.green {
+  --badge-solid: var(--status-green);
+  --badge-bg: var(--status-green-bg);
+  --badge-border: var(--status-green-border);
+  --badge-text: var(--status-green-text);
+}
+
+.yellow {
+  --badge-solid: var(--status-yellow);
+  --badge-bg: var(--status-yellow-bg);
+  --badge-border: var(--status-yellow-border);
+  --badge-text: var(--status-yellow-text);
+}
+
+.red {
+  --badge-solid: var(--status-red);
+  --badge-bg: var(--status-red-bg);
+  --badge-border: var(--status-red-border);
+  --badge-text: var(--status-red-text);
+}
+
+.neutral {
+  --badge-solid: var(--status-neutral);
+  --badge-bg: var(--status-neutral-bg);
+  --badge-border: var(--status-neutral-border);
+  --badge-text: var(--status-neutral-text);
+}

@@ -1,0 +1,103 @@
+/* Desktop: menu lateral fixo. Celular (< 768px): marca no topo e menu como barra inferior. */
+.shell {
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  width: var(--sidebar-width);
+  padding: var(--space-5) var(--space-3);
+  border-right: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0 var(--space-2);
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--touch-target);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-muted);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.navItem:hover {
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+}
+
+.active,
+.active:hover {
+  background: var(--color-accent-bg);
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.navIcon {
+  flex: none;
+  width: 20px;
+  height: 20px;
+}
+
+.main {
+  max-width: 1280px;
+  margin-left: var(--sidebar-width);
+  padding: var(--space-6);
+}
+
+@media (max-width: 767px) {
+  .sidebar {
+    position: static;
+    width: auto;
+    padding: var(--space-3) var(--space-4);
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .nav {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 10;
+    flex-direction: row;
+    height: var(--bottom-nav-height);
+    padding: var(--space-1) var(--space-2) calc(var(--space-1) + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+
+  .navItem {
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    padding: 0;
+    border-radius: var(--radius-md);
+    font-size: 0.75rem;
+  }
+
+  .main {
+    margin-left: 0;
+    padding: var(--space-4) var(--space-4) calc(var(--bottom-nav-height) + var(--space-5));
+  }
+}
