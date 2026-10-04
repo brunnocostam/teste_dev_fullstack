@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router';
 import { useDepartments } from '../api/queries';
-import { FAROL_LABEL } from '../farol/labels';
 import styles from './DepartmentSelect.module.css';
 
 /** Troca de departamento sem voltar à tela Geral (a escolha fica na URL). */
@@ -19,7 +18,7 @@ export function DepartmentSelect({ currentId }: { currentId: number }) {
       >
         {data.map((d) => (
           <option key={d.id} value={d.id}>
-            {d.name} — {FAROL_LABEL[d.farol]}
+            {d.name}
           </option>
         ))}
       </select>
