@@ -1,0 +1,28 @@
+.card {
+  min-width: 0;
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.header {
+  margin-bottom: var(--space-4);
+}
+
+.title {
+  font-size: 1.0625rem;
+}
+
+.subtitle {
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 479px) {
+  .card {
+    padding: var(--space-4);
+  }
+}
