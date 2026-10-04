@@ -1,0 +1,70 @@
+.timeline {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Trilho vertical ligando os marcadores. */
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  bottom: 14px;
+  left: 13px;
+  width: 2px;
+  background: var(--color-border);
+}
+
+.event {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+}
+
+.marker {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--marker-border, var(--color-border));
+  border-radius: 50%;
+  background: var(--marker-bg, var(--color-surface));
+  color: var(--marker-text, var(--color-text-muted));
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  padding-top: 3px;
+}
+
+.label {
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.time {
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+}
+
+.yellow {
+  --marker-border: var(--status-yellow);
+  --marker-bg: var(--status-yellow-bg);
+  --marker-text: var(--status-yellow-text);
+}
+
+.red {
+  --marker-border: var(--status-red);
+  --marker-bg: var(--status-red-bg);
+  --marker-text: var(--status-red-text);
+}
