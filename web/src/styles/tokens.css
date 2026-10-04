@@ -15,7 +15,7 @@
   --color-focus: #2e90fa;
 
   /* Farol: cor sólida (bolinha/barra), fundo suave, borda e texto com contraste AA sobre o fundo. */
-  --status-green: #17b26a;
+  --status-green: #079455;
   --status-green-bg: #ecfdf3;
   --status-green-border: #abefc6;
   --status-green-text: #067647;
@@ -73,8 +73,8 @@
     --status-green-text: #75e0a7;
 
     --status-yellow: #fdb022;
-    --status-yellow-bg: #4e1d09;
-    --status-yellow-border: #93370d;
+    --status-yellow-bg: #3b2a05;
+    --status-yellow-border: #7a5a0c;
     --status-yellow-text: #fec84b;
 
     --status-red: #f97066;

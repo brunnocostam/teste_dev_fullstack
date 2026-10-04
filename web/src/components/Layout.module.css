@@ -61,9 +61,14 @@
 }
 
 .main {
-  max-width: 1280px;
   margin-left: var(--sidebar-width);
   padding: var(--space-6);
+}
+
+/* Em telas largas o conteúdo fica centralizado na área à direita do menu. */
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 @media (max-width: 767px) {

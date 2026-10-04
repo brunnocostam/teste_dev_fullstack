@@ -33,7 +33,9 @@ export function Layout() {
         </nav>
       </aside>
       <main className={styles.main}>
-        <Outlet />
+        <div className={styles.content}>
+          <Outlet />
+        </div>
       </main>
     </div>
   );
