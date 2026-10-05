@@ -17,6 +17,8 @@ Pré-requisito: Docker com Docker Compose.
 docker compose up --build
 ```
 
+Esse comando carrega o **seed original** do desafio. Para ver todas as regras do farol funcionando, use o seed de cenários (seção 1.1).
+
 | Serviço | Endereço |
 |---|---|
 | Aplicação (front) | http://localhost:3000 |
@@ -32,19 +34,26 @@ Se alguma porta já estiver em uso, crie um `.env` na raiz (a partir do [`.env.e
 
 ### 1.1 Seed de cenários (recomendado para avaliar o farol)
 
-Com o seed original, quase todo o farol fica verde, e algumas regras nunca disparam (seção 3 explica por quê). Para ver todas as cores e regras funcionando, use o seed de cenários:
+Com o seed original, quase todo o farol fica verde, e algumas regras nunca disparam (a seção 3 explica por quê). O seed de cenários monta uma situação para cada regra.
+
+**Opção 1, sem editar arquivo** (macOS/Linux):
 
 ```bash
-# no .env da raiz (não no .env.example)
-SEED_FILE=seeds/cenarios.sql
+docker compose down -v                                  # só se já subiu antes: apaga o banco para o seed rodar de novo
+SEED_FILE=seeds/cenarios.sql docker compose up --build
 ```
+
+**Opção 2, fixando no `.env`** (qualquer sistema):
 
 ```bash
-docker compose down -v      # apaga o volume do banco para o seed rodar de novo
-docker compose up --build
+cp .env.example .env    # no Windows: copy .env.example .env
 ```
 
-Para voltar ao seed original, remova (ou comente) a linha `SEED_FILE` e repita os dois comandos.
+Descomente a linha `# SEED_FILE=seeds/cenarios.sql` no `.env` e rode `docker compose down -v` e depois `docker compose up --build`.
+
+**Para voltar ao original:** `docker compose down -v` e `docker compose up --build` (sem a variável, ou com a linha comentada de novo).
+
+**Como saber qual está ativo:** a tela Geral mostra 61 internações ativas com o seed de cenários e 3 com o original.
 
 ### 1.2 Testes
 
