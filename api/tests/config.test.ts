@@ -8,10 +8,10 @@ describe('loadConfig', () => {
   });
 
   it('exige DATABASE_URL (sem credencial padrão no código)', () => {
-    expect(() => loadConfig({})).toThrow();
+    expect(() => loadConfig({})).toThrow(/DATABASE_URL/);
   });
 
   it('recusa URL que não é de Postgres', () => {
-    expect(() => loadConfig({ DATABASE_URL: 'mysql://user:secret@localhost/db' })).toThrow();
+    expect(() => loadConfig({ DATABASE_URL: 'mysql://user:secret@localhost/db' })).toThrow(/DATABASE_URL/);
   });
 });
