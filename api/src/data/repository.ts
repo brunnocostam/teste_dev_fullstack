@@ -1,4 +1,5 @@
 import type { Db } from '../db';
+import type { AdmissionSituation } from '../farol';
 
 export interface DepartmentCapacityRow {
   id: number;
@@ -8,8 +9,6 @@ export interface DepartmentCapacityRow {
   doctors: number;
   nurses: number;
 }
-
-export type AdmissionSituation = 'internado' | 'alta' | 'obito';
 
 /** Filtros da listagem de internações (todos opcionais). from/to filtram a data de entrada (AAAA-MM-DD). */
 export interface AdmissionFilters {

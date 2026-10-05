@@ -3,6 +3,7 @@ import {
   classifyAdmission,
   classifyDepartment,
   classifyHospital,
+  pickVitals,
   severity,
   type FarolColor,
   type FarolResult,
@@ -31,12 +32,7 @@ function percent(part: number, total: number): number {
 function classify(row: ActiveAdmissionRow): FarolResult {
   return classifyAdmission({
     situation: 'internado',
-    latestVitals: {
-      heartRate: row.heartRate,
-      oxygenSaturation: row.oxygenSaturation,
-      temperature: row.temperature,
-      systolicPressure: row.systolicPressure,
-    },
+    latestVitals: pickVitals(row),
     pendingExamHours: row.pendingExamHours,
   });
 }

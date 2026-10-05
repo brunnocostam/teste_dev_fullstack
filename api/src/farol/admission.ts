@@ -5,6 +5,16 @@ export type AdmissionSituation = 'internado' | 'alta' | 'obito';
 
 export type LatestVitals = Partial<Record<VitalSign, number | null>>;
 
+/** Extrai só os sinais que o farol avalia de uma linha com mais campos (ex.: linha do banco). */
+export function pickVitals(row: Record<VitalSign, number | null>): LatestVitals {
+  return {
+    heartRate: row.heartRate,
+    oxygenSaturation: row.oxygenSaturation,
+    temperature: row.temperature,
+    systolicPressure: row.systolicPressure,
+  };
+}
+
 export interface AdmissionIndicators {
   situation: AdmissionSituation;
   /** Última medição de sinais vitais (null se nunca medido). */

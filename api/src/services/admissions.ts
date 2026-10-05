@@ -2,7 +2,6 @@ import type {
   ActiveAdmissionRow,
   AdmissionFilters,
   AdmissionHeaderRow,
-  AdmissionSituation,
   ClosedAdmissionRow,
   ExamRow,
   HospitalRepository,
@@ -13,10 +12,11 @@ import {
   classifyPendingExam,
   classifyVital,
   classifyVitals,
+  pickVitals,
   severity,
   VITAL_THRESHOLDS,
+  type AdmissionSituation,
   type FarolColor,
-  type LatestVitals,
   type VitalSign,
 } from '../farol';
 
@@ -40,19 +40,10 @@ export interface AdmissionListItem {
   daysAdmitted: number;
 }
 
-function toVitals(row: Pick<VitalSignsRow, VitalSign>): LatestVitals {
-  return {
-    heartRate: row.heartRate,
-    oxygenSaturation: row.oxygenSaturation,
-    temperature: row.temperature,
-    systolicPressure: row.systolicPressure,
-  };
-}
-
 function activeItem(row: ActiveAdmissionRow): AdmissionListItem {
   const { color, reason } = classifyAdmission({
     situation: 'internado',
-    latestVitals: toVitals(row),
+    latestVitals: pickVitals(row),
     pendingExamHours: row.pendingExamHours,
   });
   return {
@@ -166,7 +157,7 @@ function buildTimeline(header: AdmissionHeaderRow, vitals: VitalSignsRow[], exam
   }
 
   for (const measurement of vitals) {
-    const { color, reason } = classifyVitals(toVitals(measurement));
+    const { color, reason } = classifyVitals(pickVitals(measurement));
     if (color !== 'green' && reason) events.push({ at: measurement.recordedAt, type: 'alert', label: reason, severity: color });
   }
 
@@ -188,7 +179,7 @@ export function toAdmissionDetail(header: AdmissionHeaderRow, vitals: VitalSigns
   const pendingExamHours = exams.flatMap((e) => (e.hoursPending === null ? [] : [e.hoursPending]));
   const farol = classifyAdmission({
     situation: header.status,
-    latestVitals: latest && toVitals(latest),
+    latestVitals: latest && pickVitals(latest),
     pendingExamHours,
   });
 
