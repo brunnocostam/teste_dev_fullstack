@@ -1,0 +1,109 @@
+# CI a cada push e pull request; deploy automático na versão publicada a cada push na main.
+# Dados de acesso ao servidor ficam nos secrets do repositório (DEPLOY_HOST, DEPLOY_USER,
+# DEPLOY_SSH_KEY); a configuração de produção fica no próprio servidor, fora do repositório.
+name: CI e deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: Lint, testes e build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    # Postgres descartável só para os testes de integração (credenciais padrão do desafio).
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: hospital
+          POSTGRES_PASSWORD: hospital123
+          POSTGRES_DB: hospital_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U hospital -d hospital_db"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgres://hospital:hospital123@localhost:5432/hospital_db
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            api/package-lock.json
+            web/package-lock.json
+
+      - name: Instala dependências
+        run: |
+          npm ci
+          npm --prefix api ci
+          npm --prefix web ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Testes unitários
+        run: npm test
+
+      - name: Testes de integração (SQL)
+        run: npm run test:integration
+
+      - name: Build
+        run: |
+          npm --prefix api run build
+          npm --prefix web run build
+
+  deploy:
+    name: Deploy
+    needs: ci
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Um deploy por vez; um push novo espera o anterior terminar.
+    concurrency:
+      group: deploy
+      cancel-in-progress: false
+
+    env:
+      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+      DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+
+    steps:
+      - name: Configura o acesso SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+
+      # Atualiza o código e reconstrói só o que mudou; o volume do banco é preservado.
+      - name: Atualiza e sobe no servidor
+        run: |
+          ssh -i ~/.ssh/deploy_key "$DEPLOY_USER@$DEPLOY_HOST" '
+            set -e
+            cd ~/teste_dev_fullstack
+            git pull --ff-only
+            docker compose -f docker-compose.yml -f ~/farol-deploy/docker-compose.prod.yml up -d --build
+            docker image prune -f
+          '
+
+      - name: Confere se o site responde
+        run: curl -fsS --retry 10 --retry-delay 6 --retry-all-errors -o /dev/null "https://$DEPLOY_HOST/api/health"
