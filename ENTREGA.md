@@ -230,7 +230,7 @@ web/src/
 
 | Suíte | Quantidade | O que cobre |
 |---|---|---|
-| API, unitários | 120 | Regras do farol (100% das linhas), serviços, rotas (validação, 404, formato de erro), configuração |
+| API, unitários | 121 | Regras do farol (100% das linhas), serviços, rotas (validação, 404, formato de erro), configuração |
 | API, integração | 30 | Repositório contra Postgres real: filtros, paginação, última medição, funil de exames, tempo médio, detalhe |
 | Front, unitários | 16 | Filtros na URL, cliente HTTP (erros da API, resposta não JSON, falha de rede), formatação |
 
