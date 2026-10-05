@@ -76,6 +76,8 @@ describe('activeAdmissions', () => {
 });
 
 describe('filtros da listagem', () => {
+  // O banco guarda UTC; o período é escolhido em dias de Brasília (UTC-3).
+  // Cada horário abaixo está em UTC, com o equivalente em Brasília ao lado.
   async function scenario() {
     const uti = await insertDepartment(t.db, { name: 'UTI' });
     const ps = await insertDepartment(t.db, { name: 'Pronto Socorro' });
@@ -83,22 +85,22 @@ describe('filtros da listagem', () => {
       ana: await insertAdmission(t.db, {
         patientId: await insertPatient(t.db, { name: 'Ana Souza' }),
         departmentId: uti,
-        admittedAt: '2026-10-01 00:00',
+        admittedAt: '2026-10-01 03:00', // 01/10 00:00 em Brasília
       }),
       bruno: await insertAdmission(t.db, {
         patientId: await insertPatient(t.db, { name: 'Bruno Lima' }),
         departmentId: ps,
-        admittedAt: '2026-10-03 23:59',
+        admittedAt: '2026-10-04 02:59', // 03/10 23:59 em Brasília
       }),
       carla: await insertAdmission(t.db, {
         patientId: await insertPatient(t.db, { name: 'Carla 100% Silva' }),
         departmentId: ps,
-        admittedAt: '2026-10-04 00:00',
+        admittedAt: '2026-10-04 03:00', // 04/10 00:00 em Brasília
       }),
       antiga: await insertAdmission(t.db, {
         patientId: await insertPatient(t.db, { name: 'Ana Paula' }),
         departmentId: uti,
-        admittedAt: '2026-09-30 23:59',
+        admittedAt: '2026-10-01 02:59', // 30/09 23:59 em Brasília
       }),
     };
     return { uti, ps, ids };
@@ -126,10 +128,22 @@ describe('filtros da listagem', () => {
     expect(await repo().activeAdmissions({ search: '_' })).toHaveLength(0);
   });
 
-  it('filtra pela data de entrada, incluindo o dia final inteiro', async () => {
+  it('filtra pela data de entrada em dias de Brasília, incluindo o dia final inteiro', async () => {
     const s = await scenario();
 
     expect(ids(await repo().activeAdmissions({ from: '2026-10-01', to: '2026-10-03' }))).toEqual([s.ids.ana, s.ids.bruno]);
+  });
+
+  it('conta a entrada às 22h de Brasília no mesmo dia, mesmo já sendo o dia seguinte em UTC', async () => {
+    const uti = await insertDepartment(t.db);
+    const night = await insertAdmission(t.db, {
+      patientId: await insertPatient(t.db),
+      departmentId: uti,
+      admittedAt: '2026-10-02 01:00', // 01/10 22:00 em Brasília
+    });
+
+    expect(ids(await repo().activeAdmissions({ from: '2026-10-01', to: '2026-10-01' }))).toEqual([night]);
+    expect(await repo().activeAdmissions({ from: '2026-10-02', to: '2026-10-02' })).toEqual([]);
   });
 
   it('combina os filtros', async () => {

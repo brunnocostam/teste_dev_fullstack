@@ -138,6 +138,13 @@ const DEPARTMENT_CAPACITY_SQL = `
 
 const DAYS_ADMITTED = `floor(extract(epoch FROM coalesce(a.discharge_date, now()) - a.admission_date) / 86400)::int`;
 
+/**
+ * Fuso em que o gestor pensa os dias. O banco guarda horários em UTC (TIMESTAMP
+ * sem fuso, gravado com NOW() de um servidor em UTC), então o dia escolhido no
+ * filtro é convertido para o intervalo UTC correspondente. Ver docs/adr/0003.
+ */
+const HOSPITAL_TIME_ZONE = 'America/Sao_Paulo';
+
 function escapeLike(text: string): string {
   return text.replace(/[\\%_]/g, (c) => `\\${c}`);
 }
@@ -152,9 +159,16 @@ function filterConditions(filters: AdmissionFilters, params: unknown[]): string[
 
   if (filters.departmentId !== undefined) conditions.push(`a.department_id = ${param(filters.departmentId)}`);
   if (filters.search) conditions.push(`p.name ILIKE ${param(`%${escapeLike(filters.search)}%`)}`);
-  // Período pela data de entrada, com o dia final inteiro incluído (ver docs/adr/0003).
-  if (filters.from) conditions.push(`a.admission_date >= ${param(filters.from)}::date`);
-  if (filters.to) conditions.push(`a.admission_date < ${param(filters.to)}::date + 1`);
+  // Período pela data de entrada, em dias de Brasília, com o dia final inteiro incluído
+  // (ver docs/adr/0003). A conversão é feita no parâmetro, não na coluna, para não
+  // impedir o uso de índice em admission_date.
+  if (filters.from || filters.to) {
+    const zone = param(HOSPITAL_TIME_ZONE);
+    // Meia-noite do dia em Brasília, expressa em UTC (o mesmo formato da coluna).
+    const midnightUtc = (dayExpr: string) => `(${dayExpr}::timestamp AT TIME ZONE ${zone}) AT TIME ZONE 'UTC'`;
+    if (filters.from) conditions.push(`a.admission_date >= ${midnightUtc(`${param(filters.from)}::date`)}`);
+    if (filters.to) conditions.push(`a.admission_date < ${midnightUtc(`(${param(filters.to)}::date + 1)`)}`);
+  }
 
   return conditions;
 }
