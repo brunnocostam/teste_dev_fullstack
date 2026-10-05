@@ -2,6 +2,7 @@
 
 Dashboard de gestão hospitalar para o "Hospital Vida Plena". O gestor abre a tela e sabe, em poucos segundos, **se** há problema, **onde** está e **quem** está envolvido. A ideia central é um farol: cada internação, departamento e o hospital inteiro recebem uma cor (verde, amarelo, vermelho, ou cinza para internação encerrada), sempre acompanhada do motivo em texto.
 
+- **Versão publicada:** https://farol-dashboard.duckdns.org (com o seed de cenários; abre direto, sem instalar nada)
 - **Tempo investido:** duas noites, aproximadamente 6 horas.
 - **Especificação do produto:** [`docs/spec/farol-hospitalar-spec-frontend.md`](docs/spec/farol-hospitalar-spec-frontend.md)
 - **Glossário do domínio:** [`CONTEXT.md`](CONTEXT.md)
@@ -243,6 +244,8 @@ web/src/
 | API, integração | 30 | Repositório contra Postgres real: filtros, paginação, última medição, funil de exames, tempo médio, detalhe |
 | Front, unitários | 16 | Filtros na URL, cliente HTTP (erros da API, resposta não JSON, falha de rede), formatação |
 
+As três suítes rodam no CI (GitHub Actions) a cada push, junto com o lint e o build; os testes de integração usam um Postgres descartável criado pelo próprio CI.
+
 Para ser preciso sobre o processo:
 
 - os testes unitários foram escritos **junto** com o código, não antes;
@@ -291,7 +294,7 @@ Algumas delas (NPS, pós-alta, notificações) precisam de dados que o schema at
 - **Histórico de indicadores** (um snapshot periódico da ocupação) para mostrar a variação ▲▼ e tendências. É a base da análise dos dias mais cheios.
 - **Validação clínica dos limites:** os limites do farol foram definidos por mim, a partir do NEWS2 e de valores de referência; num hospital real, precisariam ser revisados e aprovados pela equipe médica.
 - **Limites configuráveis pelo hospital:** levar os limites do código para o banco, com uma tela de administração, para ajustar sem novo deploy e até por departamento.
-- **Testes de ponta a ponta** (Playwright) nos fluxos principais e CI rodando lint, testes e build a cada push.
+- **Testes de ponta a ponta** (Playwright) nos fluxos principais, rodando no CI.
 - **Autenticação e perfis**, que ficaram fora do escopo na especificação.
 - **Observabilidade:** logs estruturados com id da requisição e métricas de tempo das consultas.
 
@@ -314,6 +317,16 @@ Cuidados para um ambiente exposto:
 - **Trocar a senha padrão do banco.**
 
 Para algo gerenciado, o caminho natural é publicar as imagens da API e do front num registry (Cloud Run, ECS ou Azure Container Apps) e usar um Postgres gerenciado (Cloud SQL, RDS), passando `DATABASE_URL` por variável de ambiente.
+
+### 6.1 Como a versão publicada foi feita
+
+A versão em https://farol-dashboard.duckdns.org segue o roteiro acima:
+
+- **Servidor:** AWS Lightsail, Ubuntu 24.04 com 1 GB de RAM (mais 2 GB de swap para o build), IP estático e o domínio gratuito do DuckDNS.
+- **HTTPS:** o Caddy fica na frente do front e emite e renova o certificado (Let's Encrypt) sozinho; quem acessa por `http` é redirecionado para `https`.
+- **Rede:** o firewall só abre as portas 22 (SSH), 80 e 443. Banco, API e front não publicam portas; o Adminer não sobe.
+- **Configuração de produção fora do repositório:** o compose de produção (Caddy e portas fechadas), o `Caddyfile` e o `.env` com a senha do banco e o domínio ficam só no servidor. O repositório continua com uma única forma de rodar, a da seção 1.
+- **Deploy automático** ([`.github/workflows/ci-deploy.yml`](.github/workflows/ci-deploy.yml)): a cada push na `main`, o GitHub Actions roda lint, testes unitários, testes de integração e o build. Só se tudo passar, entra no servidor por SSH, faz `git pull`, reconstrói o que mudou (preservando o banco) e confere se o site responde. O acesso usa uma chave SSH exclusiva para o deploy, guardada nos secrets do repositório.
 
 ---
 
