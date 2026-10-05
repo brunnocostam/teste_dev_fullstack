@@ -22,8 +22,14 @@ export function combine(results: FarolResult[]): FarolResult {
   const color = worstColor(results.map((r) => r.color));
   if (color === 'green') return { color, reason: null };
 
-  const reasons = results.filter((r) => r.color === color && r.reason).map((r) => r.reason);
-  return { color, reason: reasons.join(' · ') };
+  const reasons = results.filter((r) => r.color === color && r.reason).map((r) => r.reason as string);
+  return { color, reason: reasons.map((r, i) => (i === 0 ? r : continueSentence(r))).join(', ') };
+}
+
+/** "Ocupação 93%" vira "ocupação 93%" no meio da frase; siglas (FC, PA) ficam como estão. */
+function continueSentence(text: string): string {
+  const isAcronym = text.length > 1 && text[1] === text[1].toUpperCase() && text[1] !== text[1].toLowerCase();
+  return isAcronym ? text : text.charAt(0).toLowerCase() + text.slice(1);
 }
 
 const numberFormat = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 1 });

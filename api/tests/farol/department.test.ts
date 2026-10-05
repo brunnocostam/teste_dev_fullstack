@@ -70,7 +70,7 @@ describe('classifyDepartment', () => {
       admissionColors: ['red', 'red', 'green'],
     });
 
-    expect(result).toEqual({ color: 'red', reason: '2 pacientes críticos · Ocupação 96%' });
+    expect(result).toEqual({ color: 'red', reason: '2 pacientes críticos, ocupação 96%' });
   });
 
   it('fica amarelo só pela carga da equipe', () => {

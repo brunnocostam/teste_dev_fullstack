@@ -10,5 +10,5 @@ export function classifyHospital(departmentColors: FarolColor[]): FarolResult & 
   if (critical > 0) parts.push(plural(critical, 'departamento crítico', 'departamentos críticos'));
   if (attention > 0) parts.push(`${attention} em alerta`);
 
-  return { color, reason: parts.length > 0 ? parts.join(' · ') : 'Todos os departamentos em ordem' };
+  return { color, reason: parts.length > 0 ? parts.join(' e ') : 'Todos os departamentos em ordem' };
 }

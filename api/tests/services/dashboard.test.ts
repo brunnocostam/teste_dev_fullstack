@@ -74,7 +74,7 @@ describe('toOverview', () => {
     const overview = toOverview(snapshots, noExams, null);
 
     expect(overview.farol).toBe('red');
-    expect(overview.farolReason).toBe('1 departamento crítico · 1 em alerta');
+    expect(overview.farolReason).toBe('1 departamento crítico e 1 em alerta');
   });
 
   it('ordena departamentos do mais grave para o menos grave', () => {

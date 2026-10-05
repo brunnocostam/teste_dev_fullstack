@@ -4,7 +4,7 @@ describe('classifyHospital (pior caso)', () => {
   it('um departamento vermelho deixa o hospital vermelho', () => {
     expect(classifyHospital(['green', 'green', 'red', 'yellow', 'yellow'])).toEqual({
       color: 'red',
-      reason: '1 departamento crítico · 2 em alerta',
+      reason: '1 departamento crítico e 2 em alerta',
     });
   });
 

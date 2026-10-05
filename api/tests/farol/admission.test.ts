@@ -64,7 +64,7 @@ describe('classifyVitals', () => {
     const result = classifyVitals({ heartRate: 135, oxygenSaturation: 88, temperature: 38.5 });
 
     expect(result.color).toBe('red');
-    expect(result.reason).toBe('FC 135 bpm · Saturação 88%');
+    expect(result.reason).toBe('FC 135 bpm, saturação 88%');
   });
 });
 
@@ -111,7 +111,7 @@ describe('classifyAdmission', () => {
       pendingExamHours: [26],
     });
 
-    expect(result).toEqual({ color: 'red', reason: 'Saturação 88% · 1 exame atrasado' });
+    expect(result).toEqual({ color: 'red', reason: 'Saturação 88%, 1 exame atrasado' });
   });
 
   it('mostra só o motivo do indicador mais grave', () => {
