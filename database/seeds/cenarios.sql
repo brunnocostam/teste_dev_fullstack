@@ -249,3 +249,14 @@ FROM admissions a
 JOIN cenario_ativo c ON c.patient_id = a.patient_id
 WHERE a.status = 'internado'
   AND (c.perfil IN ('exame_atrasado', 'exame_12h') OR (c.perfil = 'normal' AND c.k % 4 = 0));
+
+-- ----------------------------------------------------------------------------
+-- Índice para "última medição de cada internação" (LATERAL ... ORDER BY
+-- measured_at DESC LIMIT 1). Os índices separados do schema fazem o Postgres
+-- varrer as medições por data descartando as de outras internações; com o
+-- composto ele lê direto a primeira linha da internação. Criado depois dos
+-- INSERTs (mais rápido que manter o índice durante a carga). Ver ENTREGA.md.
+-- ----------------------------------------------------------------------------
+CREATE INDEX IF NOT EXISTS idx_vitals_admission_measured_at
+    ON vital_signs (admission_id, measured_at DESC);
+ANALYZE vital_signs;
