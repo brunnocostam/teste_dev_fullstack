@@ -2,7 +2,7 @@
 
 Dashboard de gestão hospitalar para o "Hospital Vida Plena". O gestor abre a tela e sabe, em poucos segundos, **se** há problema, **onde** está e **quem** está envolvido. A ideia central é um farol: cada internação, departamento e o hospital inteiro recebem uma cor (verde, amarelo, vermelho, ou cinza para internação encerrada), sempre acompanhada do motivo em texto.
 
-- **Versão publicada:** https://farol-dashboard.duckdns.org (com o seed de cenários; abre direto, sem instalar nada)
+- **Versão publicada:** https://farol-dashboard.duckdns.org (com o seed de cenários, recriado a cada 6 horas; abre direto, sem instalar nada)
 - **Tempo investido:** duas noites, aproximadamente 6 horas.
 - **Especificação do produto:** [`docs/spec/farol-hospitalar-spec-frontend.md`](docs/spec/farol-hospitalar-spec-frontend.md)
 - **Glossário do domínio:** [`CONTEXT.md`](CONTEXT.md)
@@ -326,6 +326,7 @@ A versão em https://farol-dashboard.duckdns.org segue o roteiro acima:
 - **HTTPS:** o Caddy fica na frente do front e emite e renova o certificado (Let's Encrypt) sozinho; quem acessa por `http` é redirecionado para `https`.
 - **Rede:** o firewall só abre as portas 22 (SSH), 80 e 443. Banco, API e front não publicam portas; o Adminer não sobe.
 - **Configuração de produção fora do repositório:** o compose de produção (Caddy e portas fechadas), o `Caddyfile` e o `.env` com a senha do banco e o domínio ficam só no servidor. O repositório continua com uma única forma de rodar, a da seção 1.
+- **Cenário sempre "fresco":** um agendamento (`cron`) no servidor recria só o banco a cada 6 horas, preservando o certificado do HTTPS. Pelos dados do seed, o cenário planejado dura cerca de 8 horas: depois disso a Pediatria deixa de ficar verde (seção 3.3), e em cerca de 20 horas todos os departamentos ficam vermelhos. Durante a recriação, o site fica uns 30 segundos sem dados.
 - **Deploy automático** ([`.github/workflows/ci-deploy.yml`](.github/workflows/ci-deploy.yml)): a cada push na `main`, o GitHub Actions roda lint, testes unitários, testes de integração e o build. Só se tudo passar, entra no servidor por SSH, faz `git pull`, reconstrói o que mudou (preservando o banco) e confere se o site responde. O acesso usa uma chave SSH exclusiva para o deploy, guardada nos secrets do repositório.
 
 ---
