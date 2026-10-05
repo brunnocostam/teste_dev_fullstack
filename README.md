@@ -1,5 +1,7 @@
 # Teste Técnico — Desenvolvedor(a) Full Stack Pleno (Node/React)
 
+> **Entrega:** como rodar, decisões técnicas e uso de IA estão em [ENTREGA.md](ENTREGA.md).
+
 ## Sobre o projeto
 
 Este teste simula um cenário real de um dos nossos squads: evoluir o uso de
